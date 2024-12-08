@@ -1,0 +1,31 @@
+package Cosas;
+
+public class PlayPass {
+	public static String playPass(String s, int n) {
+		StringBuilder transformado = new StringBuilder();
+    
+    for(int i = 0; i< s.length(); i++){
+              
+      char c = s.charAt(i);
+        
+      if (Character.isLetter(c)){
+        char base = Character.isUpperCase(c) ? 'A' : 'a';
+        char desplazado = (char) (base + (c - base + n) % 26);
+        if(i %2 == 0){
+          transformado.append(Character.toUpperCase(desplazado)){
+            
+          }else{
+            transformado.append(Character.toLowerCase(desplazado))
+          }
+        }
+        
+      }else if (Character.isDigit(c)){
+         transformado.append(9 - (c - '0'));
+      }else{
+        transformado.append(c);
+      }
+    }
+    return transformado.reverse.toString();
+    
+	}
+}

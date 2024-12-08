@@ -1,0 +1,29 @@
+package Cosas;
+
+public class PlayPass {
+	 public static String[] towerBuilder(int nFloors){
+		    
+		    String[] torre= new String[nFloors];
+		    
+		    for (int i = 0; i < nFloors; i++) {
+		        // Espacios a la izquierda y derecha
+		        int numEspacios = nFloors - i - 1;
+		        // Número de asteriscos en la fila actual
+		        int numAsteriscos = 2 * i + 1;
+
+		      
+		        String piso = " ".repeat(numEspacios) + "*".repeat(numAsteriscos) + " ".repeat(numEspacios);
+		        torre[i] = piso;
+		    }
+
+		    return torre;
+		  }
+	 public static void main(String[] args) {
+
+		String torre = "";
+		for (int i = 0; i < towerBuilder(7).length; i++) {
+			torre = towerBuilder(7)[i];
+			System.out.println(torre);
+		}
+	}
+}

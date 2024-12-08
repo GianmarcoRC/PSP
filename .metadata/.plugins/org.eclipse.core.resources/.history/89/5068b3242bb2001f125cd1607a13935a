@@ -1,0 +1,23 @@
+package Cosas;
+
+public class PlayPass {
+	public static String expandedForm(int num){
+	      
+		StringBuilder resultado = new StringBuilder();
+        int factor = 1; 
+
+        while (num > 0) {
+            int digito = num % 10; // Obtén el último dígito
+            if (digito != 0) {
+                // Si el dígito no es cero, agrega su valor expandido
+                resultado.insert(0, (digito * factor) + " + ");
+            }
+            num /= 10; // Quita el último dígito
+            factor *= 10; // Aumenta el factor en una posición decimal
+        }
+
+                return resultado.substring(0, resultado.length() - 3); 
+	      
+    }
+	 
+}

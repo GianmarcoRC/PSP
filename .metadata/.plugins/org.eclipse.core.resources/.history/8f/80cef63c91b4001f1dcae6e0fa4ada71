@@ -1,0 +1,69 @@
+package Servidores;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class Server1 {
+
+    public static void main(String[] args) throws IOException {
+        ServerSocket servidor = new ServerSocket(5000);
+        System.out.println("Servidor en espera de conexión...");
+
+        try (Socket socketCliente1 = servidor.accept();
+             Socket socketCliente2 = servidor.accept();
+             Scanner entrada1 = new Scanner(socketCliente1.getInputStream());
+             Scanner entrada2 = new Scanner(socketCliente2.getInputStream());
+             OutputStream salida1 = socketCliente1.getOutputStream();
+             OutputStream salida2 = socketCliente2.getOutputStream()) {
+
+            System.out.println("Clientes conectados. Iniciando partida...");
+
+            int puntaje1 = 0, puntaje2 = 0;
+
+            while (puntaje1 < 3 && puntaje2 < 3) {
+                if (entrada1.hasNextLine() && entrada2.hasNextLine()) {
+                    String jugada1 = entrada1.nextLine().toLowerCase();
+                    String jugada2 = entrada2.nextLine().toLowerCase();
+
+                    String resultado = evaluarJugada(jugada1, jugada2);
+                    if (resultado.equals("Cliente 1 gana")) {
+                        puntaje1++;
+                    } else if (resultado.equals("Cliente 2 gana")) {
+                        puntaje2++;
+                    }
+
+                    salida1.write(("Resultado: " + resultado + "\nMarcador: " + puntaje1 + " - " + puntaje2 + "\n").getBytes());
+                    salida1.flush();
+                    salida2.write(("Resultado: " + resultado + "\nMarcador: " + puntaje1 + " - " + puntaje2 + "\n").getBytes());
+                    salida2.flush();
+                } else {
+                    System.out.println("Un cliente se desconectó");
+                    break;
+                }
+            }
+
+            String ganador = (puntaje1 == 3) ? "Cliente 1" : "Cliente 2";
+            salida1.write(("Juego terminado. Ganador: " + ganador + "\n").getBytes());
+            salida1.flush();
+            salida2.write(("Juego terminado. Ganador: " + ganador + "\n").getBytes());
+            salida2.flush();
+        } finally {
+            servidor.close();
+        }
+    }
+
+    private static String evaluarJugada(String jugada1, String jugada2) {
+        if (jugada1.equals(jugada2)) {
+            return "Empate";
+        }
+        if ((jugada1.equals("piedra") && jugada2.equals("tijera")) ||
+            (jugada1.equals("papel") && jugada2.equals("piedra")) ||
+            (jugada1.equals("tijera") && jugada2.equals("papel"))) {
+            return "Cliente 1 gana";
+        }
+        return "Cliente 2 gana";
+    }
+}

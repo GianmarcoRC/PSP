@@ -1,0 +1,23 @@
+package Cosas;
+
+public class PlayPass {
+	  public static double findUniq(double arr[]) {
+		  double digito = 0;
+		  double impostor
+	  for (int i = 0; i < arr.length; i++) {
+		digito = arr[i];
+		if(digito != arr[i]) {
+			
+		}
+		
+	}
+	      
+	      
+	      
+	      return digito;
+	    }
+	public static void main(String[] args) {
+		  System.out.println(PlayPass.findUniq(new double[]{ 1, 1, 1, 2, 1, 1 })); // => 2
+		  PlayPass.findUniq(new double[]{ 0, 0, 0.55, 0, 0 }); // => 0.55
+	}
+}

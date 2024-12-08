@@ -1,0 +1,13 @@
+package Cosas;
+
+public class PlayPass {
+	public static String expandedForm(int num){
+	      
+		String expansion =
+		
+	      
+	  return "";    
+	      
+    }
+	 
+}

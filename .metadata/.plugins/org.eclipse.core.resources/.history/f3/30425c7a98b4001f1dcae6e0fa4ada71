@@ -1,0 +1,35 @@
+package Servidores;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.Executors;
+
+import Hilo.HiloJuego;
+
+public class Servidor2 {
+
+	private static final int PUERTO = 5000;
+    private static final int MAX_CLIENTES = 10; // Límite de clientes concurrentes
+
+    public static void main(String[] args) {
+        // Pool de hilos para manejar múltiples conexiones
+        ExecutorService ejecutor = Executors.newFixedThreadPool(MAX_CLIENTES);
+
+        try {
+            ServerSocket servidor = new ServerSocket(PUERTO);
+            System.out.println("Servidor iniciado en puerto " + PUERTO + ". Esperando jugadores...");
+
+            // Ciclo infinito para aceptar múltiples jugadores
+            while (true) {
+                Socket socketCliente = servidor.accept();
+                System.out.println("Nuevo cliente conectado: " + socketCliente.getInetAddress());
+
+                // Crear un hilo para manejar este cliente
+                Runnable manejadorCliente = new ManejadorCliente(socketCliente);
+                ejecutor.submit(manejadorCliente);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }

@@ -1,0 +1,89 @@
+package Hilo;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Random;
+
+public class HiloJuego extends Thread{
+	private Socket socketCliente;
+    private BufferedReader entrada;
+    private OutputStream salida;
+    private Random random;
+
+    public HiloJuego(Socket socket) {
+        this.socketCliente = socket;
+        this.random = new Random();
+    }
+
+    public void run() {
+    	ServerSocket servidor = new ServerSocket(5000);
+        System.out.println("Servidor en espera de conexión...");
+
+        try (Socket socketCliente1 = servidor.accept();
+             this.entrada = new BufferedReader(new InputStreamReader(this.socketCliente.getInputStream()));
+              this.salida = this.socketCliente.getOutputStream();) {
+
+            System.out.println("Clientes conectados. Iniciando partida...");
+
+            int puntaje1 = 0, puntaje2 = 0;
+
+            while (puntaje1 < 3 && puntaje2 < 3) {
+                salida1.write("Tu turno: Piedra, Papel o Tijera\n".getBytes());
+                salida1.flush();
+                String jugada1 = entrada1.readLine().toLowerCase();
+
+
+                String resultado = evaluarJugada(jugada1, jugada2);
+                String mensajeCliente1;
+                String mensajeCliente2;
+
+                if (resultado.equals("Cliente 1 gana")) {
+                    puntaje1++;
+                    mensajeCliente1 = "Has ganado esta ronda.\n";
+                    mensajeCliente2 = "Has perdido esta ronda.\n";
+                } else if (resultado.equals("Cliente 2 gana")) {
+                    puntaje2++;
+                    mensajeCliente1 = "Has perdido esta ronda.\n";
+                    mensajeCliente2 = "Has ganado esta ronda.\n";
+                } else {
+                    mensajeCliente1 = "Empate en esta ronda.\n";
+                    mensajeCliente2 = "Empate en esta ronda.\n";
+                }
+
+                // Enviar resultado y marcador a ambos clientes
+                mensajeCliente1 += "Marcador: " + puntaje1 + " - " + puntaje2 + "\n";
+                mensajeCliente2 += "Marcador: " + puntaje1 + " - " + puntaje2 + "\n";
+
+                salida1.write(mensajeCliente1.getBytes());
+                salida1.flush();
+                salida2.write(mensajeCliente2.getBytes());
+                salida2.flush();
+            }
+
+            // Anunciar ganador
+            String ganador = (puntaje1 == 3) ? "Cliente 1" : "Cliente 2";
+            salida1.write(("Juego terminado. Ganador: " + ganador + "\n").getBytes());
+            salida1.flush();
+            salida2.write(("Juego terminado. Ganador: " + ganador + "\n").getBytes());
+            salida2.flush();
+        } finally {
+            servidor.close();
+        }
+    }
+
+    private static String evaluarJugada(String jugada1, String jugada2) {
+        if (jugada1.equals(jugada2)) {
+            return "Empate";
+        }
+        if ((jugada1.equals("piedra") && jugada2.equals("tijera")) ||
+            (jugada1.equals("papel") && jugada2.equals("piedra")) ||
+            (jugada1.equals("tijera") && jugada2.equals("papel"))) {
+            return "Cliente 1 gana";
+        }
+        return "Cliente 2 gana";
+    }
+}

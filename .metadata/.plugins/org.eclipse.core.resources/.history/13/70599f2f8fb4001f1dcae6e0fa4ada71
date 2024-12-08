@@ -1,0 +1,29 @@
+package Clientes;
+
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class Cliente1 {
+
+	public static void main(String[] args) {
+		try (Socket socket = new Socket("localhost", 5000);
+	             Scanner entrada = new Scanner(socket.getInputStream());
+	             OutputStream salida = socket.getOutputStream();
+	             Scanner teclado = new Scanner(System.in)) {
+
+	            while (true) {
+	                System.out.print(entrada.nextLine() + " ");
+	                String jugada = teclado.nextLine();
+	                salida.write((jugada + "\n").getBytes());
+
+	                String respuesta = entrada.nextLine();
+	                System.out.println(respuesta);
+
+	                if (respuesta.contains("Juego terminado")) {
+	                    break;
+	                }
+	            }
+	        }
+	    }
+	}

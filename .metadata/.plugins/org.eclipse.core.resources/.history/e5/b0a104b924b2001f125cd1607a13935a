@@ -1,0 +1,12 @@
+package Cosas;
+
+public class PlayPass {
+	  public static boolean isPrime(int num) {
+		   
+		  if  
+		    
+		    
+		    
+		    return false; 
+		  }
+}

@@ -1,0 +1,19 @@
+package Cosas;
+
+public class PlayPass {
+	 public static String[] towerBuilder(int nFloors){
+		    
+		    String[] torre= new String[nFloors];
+		    
+		    for (int i = 0; i < nFloors; i++) {
+				for (int j = 0; j < nFloors; j++) {
+					torre.append("*");
+				}
+			}
+		    
+		    return ;
+		  }
+	 public static void main(String[] args) {
+		towerBuilder(7);
+	}
+}

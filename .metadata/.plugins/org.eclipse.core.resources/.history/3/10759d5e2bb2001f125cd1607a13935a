@@ -1,0 +1,25 @@
+package Cosas;
+
+public class PlayPass {
+	public static String expandedForm(int num){
+	      
+		StringBuilder resultado = new StringBuilder();
+        int factor = 1; 
+
+        while (num > 0) {
+            int digito = num % 10; 
+            if (digito != 0) {
+
+            	resultado.insert(0, (digito * factor) + " + ");
+            }
+            num /= 10; 
+            factor *= 10; 
+        }
+
+                return resultado.substring(0, resultado.length() - 3); 
+	      
+    }
+	 public static void main(String[] args) {
+		System.out.println(e);
+	}
+}

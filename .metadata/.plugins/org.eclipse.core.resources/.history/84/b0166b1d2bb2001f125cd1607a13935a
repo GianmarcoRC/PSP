@@ -1,0 +1,24 @@
+package Cosas;
+
+public class PlayPass {
+	public static String expandedForm(int num){
+	      
+		StringBuilder resultado = new StringBuilder();
+        int factor = 1; // Factor para identificar la posición decimal actual
+
+        while (num > 0) {
+            int digito = num % 10; // Obtén el último dígito
+            if (digito != 0) {
+                // Si el dígito no es cero, agrega su valor expandido
+                resultado.insert(0, (digito * factor) + " + ");
+            }
+            num /= 10; // Quita el último dígito
+            factor *= 10; // Aumenta el factor en una posición decimal
+        }
+
+        // Elimina el último " + " y devuelve el resultado
+        return resultado.substring(0, resultado.length() - 3); 
+	      
+    }
+	 
+}

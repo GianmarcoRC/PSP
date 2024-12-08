@@ -1,0 +1,12 @@
+package Cosas;
+
+public class PlayPass {
+	 public static String[] towerBuilder(int nFloors){
+		    
+		    StringBuilder torre = new StringBuilder();
+		    
+		    for()
+		    
+		    return new String[0];
+		  }
+}

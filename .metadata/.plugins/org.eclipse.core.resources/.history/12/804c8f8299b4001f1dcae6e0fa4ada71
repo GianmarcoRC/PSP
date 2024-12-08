@@ -1,0 +1,33 @@
+package Servidores;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import Hilo.HiloJuego;
+
+public class Servidor2 {
+
+	private static final int PUERTO = 5000;
+     
+    public static void main(String[] args) {
+        ExecutorService ejecutor = Executors.newFixedThreadPool(MAX_CLIENTES);
+
+        try {
+            ServerSocket servidor = new ServerSocket(PUERTO);
+            System.out.println("Servidor iniciado en puerto " + PUERTO + ". Esperando jugadores...");
+
+            while (true) {
+                Socket socketCliente = servidor.accept();
+                System.out.println("Nuevo cliente conectado: " + socketCliente.getInetAddress());
+
+                Thread hilojuego = new HiloJuego(socketCliente);
+                ejecutor.submit(hilojuego);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
